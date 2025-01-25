@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Filter</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* min-height: 100vh; */
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+
+        #form {
+            width: 400px;
+            height: auto;
+            border: 2px solid green;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        input {
+            border: 2px solid #4CAF50;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        
+
+        ul {
+            list-style-type: none;
+            border: 2px solid green;
+            width: 400px;
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 4px;
+            height: auto;
+            display: none;
+        }
+
+        ul.show {
+            display: block;
+        }
+
+        li {
+            border-radius: 4px;
+            text-align: center;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: green;
+            color: aliceblue;
+        }
+
+        button {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 6px;
+            background-color: rgb(2, 123, 2);
+            color: white;
+            font-size: 18px;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(3, 152, 3);
+        }
+        p{
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-family: poppins;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <p>Search user author name</p>
+        <form action="" id="form">
+            <input type="text" id="searchInput" placeholder="Search items..." />
+            <button type="submit">Submit</button>
+        </form>
+        <ul id="itemList">
+        </ul>
+    </div>
+
+    <script>
+        const items = [
+            {
+                "id": 1,
+                "title": "Introduction to MongoDB",
+                "content": "MongoDB is a popular NoSQL database...",
+                "author": "John Doe",
+            },
+            {
+                "id": 2,
+                "title": "Getting Started with NoSQL Databases",
+                "content": "NoSQL databases provide flexible data models...",
+                "author": "Sarah Williams",
+            },
+            {
+                "id": 3,
+                "title": "Advanced Queries in MongoDB",
+                "content": "Learn how to write complex queries...",
+                "author": "Michael Johnson",
+            },
+            {
+                "id": 4,
+                "title": "Optimizing MongoDB Performance",
+                "content": "Tips and tricks to improve MongoDB performance...",
+                "author": "Alex Turner",
+            },
+            {
+                "id": 5,
+                "title": "Schema Design Best Practices",
+                "content": "Designing schemas for optimal performance...",
+                "author": "Emily Brown",
+            }
+        ];
+
+        const itemList = document.getElementById("itemList");
+        const searchInput = document.getElementById("searchInput");
+        const searchForm = document.getElementById("form");
+        const ul = document.querySelector("ul");
+
+        function updateFilteredItems(query) {
+            const filteredItems = items.filter(item =>
+                item.author.toLowerCase().includes(query.toLowerCase()) 
+            );
+
+            itemList.innerHTML = filteredItems.length
+                ? filteredItems.map(item => {
+                   
+                    return `
+                    <li><strong>Title:</strong> ${item.title}</li>
+                    <li><strong>Content:</strong> ${item.content}</li>
+                    <li><strong>Author:</strong> ${item.author}</li>
+                    `;
+                }).join('')
+                : '<li>No items found</li>';
+        }
+
+        searchForm.addEventListener("submit", (event) => {
+            event.preventDefault(); 
+            const query = searchInput.value;
+            updateFilteredItems(query); 
+            ul.classList.add("show"); 
+        });
+    </script>
+</body>
+
+</html>
